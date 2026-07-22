@@ -1,91 +1,117 @@
-# ===== HEALTH METER APP =====
+import tkinter as tk
+from tkinter import messagebox
 
-print("=" * 40)
-print("        HEALTH METER APP")
-print("=" * 40)
+def check_health():
+    try:
+        name = name_entry.get()
+        age = int(age_entry.get())
+        weight = float(weight_entry.get())
+        height = float(height_entry.get())
 
-# User Input
-name = input("Enter Your Name: ")
-age = int(input("Enter Your Age: "))
-weight = float(input("Enter Your Weight (kg): "))
-height = float(input("Enter Your Height (cm): "))
+        smoking = smoking_var.get()
+        alcohol = alcohol_var.get()
 
-smoking = input("Do You Smoke? (yes/no): ").lower()
-alcohol = input("Do You Drink Alcohol? (yes/no): ").lower()
+        height_m = height / 100
+        bmi = weight / (height_m ** 2)
 
-# BMI Calculation
-height_m = height / 100
-bmi = weight / (height_m ** 2)
+        if bmi < 18.5:
+            status = "Underweight"
+        elif bmi < 25:
+            status = "Normal"
+        elif bmi < 30:
+            status = "Overweight"
+        else:
+            status = "Obese"
 
-print("\n" + "=" * 40)
-print("        HEALTH REPORT")
-print("=" * 40)
+        score = 100
 
-print("Name :", name)
-print("Age :", age)
-print("Weight :", weight, "kg")
-print("Height :", height, "cm")
-print("BMI :", round(bmi, 2))
+        if bmi < 18.5 or bmi >= 30:
+            score -= 20
+        elif bmi >= 25:
+            score -= 10
 
-# BMI Status
-if bmi < 18.5:
-    bmi_status = "Underweight"
-elif bmi < 25:
-    bmi_status = "Normal"
-elif bmi < 30:
-    bmi_status = "Overweight"
-else:
-    bmi_status = "Obese"
+        if smoking == "Yes":
+            score -= 20
 
-print("Health Status :", bmi_status)
+        if alcohol == "Yes":
+            score -= 10
 
-# Health Score
-score = 100
+        if age >= 50:
+            score -= 10
 
-if bmi < 18.5 or bmi >= 30:
-    score -= 20
-elif bmi >= 25:
-    score -= 10
+        if score < 0:
+            score = 0
 
-if smoking == "yes":
-    score -= 20
+        result.config(
+            text=f"""
+Name : {name}
 
-if alcohol == "yes":
-    score -= 10
+BMI : {bmi:.2f}
+Status : {status}
 
-if age >= 50:
-    score -= 10
+Health Score : {score}/100
+""",
+            fg="green"
+        )
 
-if score < 0:
-    score = 0
+    except:
+        messagebox.showerror("Error", "Please enter valid details.")
 
-print("Health Score :", score, "/100")
+root = tk.Tk()
+root.title("Health Meter")
+root.geometry("450x650")
+root.configure(bg="#1e1e2f")
 
-# Suggestions
-print("\nSuggestions:")
+title = tk.Label(root, text="❤️ HEALTH METER", font=("Arial",20,"bold"),
+                 bg="#1e1e2f", fg="white")
+title.pack(pady=15)
 
-if bmi < 18.5:
-    print("- Gain healthy weight.")
-elif bmi >= 25:
-    print("- Lose some weight with diet & exercise.")
-else:
-    print("- Maintain your current weight.")
+def add_field(text):
+    tk.Label(root,text=text,bg="#1e1e2f",fg="white",
+             font=("Arial",11)).pack()
+    e=tk.Entry(root,font=("Arial",12),width=25)
+    e.pack(pady=5)
+    return e
 
-if smoking == "yes":
-    print("- Quit smoking.")
+name_entry=add_field("Name")
+age_entry=add_field("Age")
+weight_entry=add_field("Weight (kg)")
+height_entry=add_field("Height (cm)")
 
-if alcohol == "yes":
-    print("- Reduce alcohol consumption.")
+tk.Label(root,text="Smoking",bg="#1e1e2f",
+         fg="white").pack()
 
-if score >= 90:
-    print("- Excellent Health!")
-elif score >= 70:
-    print("- Good Health.")
-elif score >= 50:
-    print("- Average Health. Improve your lifestyle.")
-else:
-    print("- Poor Health. Consult a doctor.")
+smoking_var=tk.StringVar(value="No")
 
-print("=" * 40)
-print("Thank You for Using Health Meter App")
-print("=" * 40)
+tk.Radiobutton(root,text="Yes",variable=smoking_var,
+               value="Yes",bg="#1e1e2f",
+               fg="white",selectcolor="#1e1e2f").pack()
+
+tk.Radiobutton(root,text="No",variable=smoking_var,
+               value="No",bg="#1e1e2f",
+               fg="white",selectcolor="#1e1e2f").pack()
+
+tk.Label(root,text="Alcohol",bg="#1e1e2f",
+         fg="white").pack()
+
+alcohol_var=tk.StringVar(value="No")
+
+tk.Radiobutton(root,text="Yes",variable=alcohol_var,
+               value="Yes",bg="#1e1e2f",
+               fg="white",selectcolor="#1e1e2f").pack()
+
+tk.Radiobutton(root,text="No",variable=alcohol_var,
+               value="No",bg="#1e1e2f",
+               fg="white",selectcolor="#1e1e2f").pack()
+
+tk.Button(root,text="Check Health",
+          font=("Arial",13,"bold"),
+          bg="green",fg="white",
+          command=check_health).pack(pady=20)
+
+result=tk.Label(root,text="",bg="#1e1e2f",
+                fg="white",
+                font=("Arial",12))
+result.pack()
+
+root.mainloop()
