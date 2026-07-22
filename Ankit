@@ -1,8 +1,18 @@
-q1 = input("Question 1: UT ka full form kya hai? ")
-q2 = input("Question 2: RT ka full form kya hai? ")
-q3 = input("Question 3: PT ka full form kya hai? ")
+q1 = input("1. UT ka full form kya hai? ")
+q2 = input("2. RT ka full form kya hai? ")
+q3 = input("3. PT ka full form kya hai? ")
 
-print("\n------ Your Answers ------")
-print("UT =", q1)
-print("RT =", q2)
-print("PT =", q3)
+if q1 == "Ultrasonic Testing":
+    print("Q1 ✅ Correct")
+else:
+    print("Q1 ❌ Wrong")
+
+if q2 == "Radiographic Testing":
+    print("Q2 ✅ Correct")
+else:
+    print("Q2 ❌ Wrong")
+
+if q3 == "Penetrant Testing":
+    print("Q3 ✅ Correct")
+else:
+    print("Q3 ❌ Wrong")
