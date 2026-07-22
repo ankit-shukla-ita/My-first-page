@@ -1,1 +1,91 @@
+# ===== HEALTH METER APP =====
 
+print("=" * 40)
+print("        HEALTH METER APP")
+print("=" * 40)
+
+# User Input
+name = input("Enter Your Name: ")
+age = int(input("Enter Your Age: "))
+weight = float(input("Enter Your Weight (kg): "))
+height = float(input("Enter Your Height (cm): "))
+
+smoking = input("Do You Smoke? (yes/no): ").lower()
+alcohol = input("Do You Drink Alcohol? (yes/no): ").lower()
+
+# BMI Calculation
+height_m = height / 100
+bmi = weight / (height_m ** 2)
+
+print("\n" + "=" * 40)
+print("        HEALTH REPORT")
+print("=" * 40)
+
+print("Name :", name)
+print("Age :", age)
+print("Weight :", weight, "kg")
+print("Height :", height, "cm")
+print("BMI :", round(bmi, 2))
+
+# BMI Status
+if bmi < 18.5:
+    bmi_status = "Underweight"
+elif bmi < 25:
+    bmi_status = "Normal"
+elif bmi < 30:
+    bmi_status = "Overweight"
+else:
+    bmi_status = "Obese"
+
+print("Health Status :", bmi_status)
+
+# Health Score
+score = 100
+
+if bmi < 18.5 or bmi >= 30:
+    score -= 20
+elif bmi >= 25:
+    score -= 10
+
+if smoking == "yes":
+    score -= 20
+
+if alcohol == "yes":
+    score -= 10
+
+if age >= 50:
+    score -= 10
+
+if score < 0:
+    score = 0
+
+print("Health Score :", score, "/100")
+
+# Suggestions
+print("\nSuggestions:")
+
+if bmi < 18.5:
+    print("- Gain healthy weight.")
+elif bmi >= 25:
+    print("- Lose some weight with diet & exercise.")
+else:
+    print("- Maintain your current weight.")
+
+if smoking == "yes":
+    print("- Quit smoking.")
+
+if alcohol == "yes":
+    print("- Reduce alcohol consumption.")
+
+if score >= 90:
+    print("- Excellent Health!")
+elif score >= 70:
+    print("- Good Health.")
+elif score >= 50:
+    print("- Average Health. Improve your lifestyle.")
+else:
+    print("- Poor Health. Consult a doctor.")
+
+print("=" * 40)
+print("Thank You for Using Health Meter App")
+print("=" * 40)
