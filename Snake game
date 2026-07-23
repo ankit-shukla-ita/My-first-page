@@ -1,62 +1,70 @@
 import pygame
-import random
+import math
 
 pygame.init()
 
-WIDTH, HEIGHT = 600, 400
+WIDTH, HEIGHT = 900, 700
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Snake Game")
+pygame.display.set_caption("Indian Train on Circular Track")
 
 clock = pygame.time.Clock()
 
-snake = [(100, 100)]
-direction = (20, 0)
+CENTER_X = WIDTH // 2
+CENTER_Y = HEIGHT // 2
+RADIUS = 220
 
-food = (random.randrange(0, WIDTH, 20),
-        random.randrange(0, HEIGHT, 20))
+angle = 0
 
 running = True
 
 while running:
-    clock.tick(10)
+    clock.tick(60)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
 
-    keys = pygame.key.get_pressed()
+    screen.fill((135, 206, 235))  # Sky Blue
 
-    if keys[pygame.K_UP]:
-        direction = (0, -20)
-    elif keys[pygame.K_DOWN]:
-        direction = (0, 20)
-    elif keys[pygame.K_LEFT]:
-        direction = (-20, 0)
-    elif keys[pygame.K_RIGHT]:
-        direction = (20, 0)
+    # Grass
+    pygame.draw.rect(screen, (50, 180, 50), (0, HEIGHT//2, WIDTH, HEIGHT//2))
 
-    head = (snake[0][0] + direction[0], snake[0][1] + direction[1])
+    # Circular Track
+    pygame.draw.circle(screen, (80, 80, 80), (CENTER_X, CENTER_Y), RADIUS, 25)
+    pygame.draw.circle(screen, (150, 150, 150), (CENTER_X, CENTER_Y), RADIUS, 3)
 
-    if (head[0] < 0 or head[0] >= WIDTH or
-        head[1] < 0 or head[1] >= HEIGHT or
-        head in snake):
-        break
+    # Train Position
+    x = CENTER_X + RADIUS * math.cos(math.radians(angle))
+    y = CENTER_Y + RADIUS * math.sin(math.radians(angle))
 
-    snake.insert(0, head)
+    # Rotate train according to track
+    train_angle = angle + 90
 
-    if head == food:
-        food = (random.randrange(0, WIDTH, 20),
-                random.randrange(0, HEIGHT, 20))
-    else:
-        snake.pop()
+    train_surface = pygame.Surface((140, 50), pygame.SRCALPHA)
 
-    screen.fill((0, 0, 0))
+    # Engine (Indian style)
+    pygame.draw.rect(train_surface, (30, 90, 220), (0, 10, 60, 30), border_radius=8)
+    pygame.draw.rect(train_surface, (220, 220, 220), (10, 15, 20, 15))
+    pygame.draw.circle(train_surface, (0, 0, 0), (15, 42), 6)
+    pygame.draw.circle(train_surface, (0, 0, 0), (45, 42), 6)
 
-    pygame.draw.rect(screen, (255, 0, 0), (*food, 20, 20))
+    # Coach
+    pygame.draw.rect(train_surface, (255, 165, 0), (70, 10, 60, 30), border_radius=8)
+    pygame.draw.rect(train_surface, (220, 220, 220), (80, 15, 12, 12))
+    pygame.draw.rect(train_surface, (220, 220, 220), (98, 15, 12, 12))
+    pygame.draw.rect(train_surface, (220, 220, 220), (116, 15, 12, 12))
+    pygame.draw.circle(train_surface, (0, 0, 0), (85, 42), 6)
+    pygame.draw.circle(train_surface, (0, 0, 0), (115, 42), 6)
 
-    for part in snake:
-        pygame.draw.rect(screen, (0, 255, 0), (*part, 20, 20))
+    rotated = pygame.transform.rotate(train_surface, -train_angle)
+    rect = rotated.get_rect(center=(x, y))
 
-    pygame.display.update()
+    screen.blit(rotated, rect)
+
+    angle += 1
+    if angle >= 360:
+        angle = 0
+
+    pygame.display.flip()
 
 pygame.quit()
