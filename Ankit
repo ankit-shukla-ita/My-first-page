@@ -1,109 +1,25 @@
-import tkinter as tk
-import math
-import time
+Date: 09 September 2026
 
-# Window
-root = tk.Tk()
-root.title("Analog + Digital Clock")
-root.geometry("500x600")
-root.configure(bg="#1e1e1e")
-root.resizable(False, False)
+To,
+The HR / Management
+District Engineering Solution
+For JSSL (Jindal Severfield Structural Ltd.)
 
-# Canvas
-canvas = tk.Canvas(root, width=400, height=400, bg="#1e1e1e", highlightthickness=0)
-canvas.pack(pady=20)
+Subject: Resignation from QC/NDT Position
 
-center_x = 200
-center_y = 200
-radius = 170
+Dear Sir/Madam,
 
-# Clock Circle
-canvas.create_oval(center_x-radius, center_y-radius,
-                   center_x+radius, center_y+radius,
-                   outline="white", width=4)
+I am writing to formally submit my resignation from my position in QC/NDT under the contract of District Engineering Solution, working for JSSL (Jindal Severfield Structural Ltd.).
 
-# Numbers
-for i in range(1, 13):
-    angle = math.radians(i * 30 - 90)
-    x = center_x + math.cos(angle) * (radius - 25)
-    y = center_y + math.sin(angle) * (radius - 25)
-    canvas.create_text(x, y, text=str(i),
-                       fill="white",
-                       font=("Arial", 16, "bold"))
+Due to heavy workload, comparatively low salary, and some personal reasons, I am unable to continue my services with the company. Therefore, I have decided to resign from my position.
 
-# Digital Clock
-digital = tk.Label(root,
-                   font=("Consolas", 28, "bold"),
-                   bg="#1e1e1e",
-                   fg="cyan")
-digital.pack()
+I am thankful to the management and my colleagues for the support and experience I received during my employment. I kindly request you to accept my resignation and complete the necessary formalities, including my full and final settlement and relieving documents.
 
-date_label = tk.Label(root,
-                      font=("Arial", 16),
-                      bg="#1e1e1e",
-                      fg="white")
-date_label.pack()
+Thank you for your understanding.
 
-def update_clock():
-    canvas.delete("hands")
-
-    t = time.localtime()
-
-    sec = t.tm_sec
-    minute = t.tm_min
-    hour = t.tm_hour % 12
-
-    sec_angle = math.radians(sec * 6 - 90)
-    min_angle = math.radians(minute * 6 + sec * 0.1 - 90)
-    hour_angle = math.radians(hour * 30 + minute * 0.5 - 90)
-
-    # Hour Hand
-    canvas.create_line(
-        center_x,
-        center_y,
-        center_x + math.cos(hour_angle) * 80,
-        center_y + math.sin(hour_angle) * 80,
-        width=6,
-        fill="white",
-        tags="hands"
-    )
-
-    # Minute Hand
-    canvas.create_line(
-        center_x,
-        center_y,
-        center_x + math.cos(min_angle) * 120,
-        center_y + math.sin(min_angle) * 120,
-        width=4,
-        fill="cyan",
-        tags="hands"
-    )
-
-    # Second Hand
-    canvas.create_line(
-        center_x,
-        center_y,
-        center_x + math.cos(sec_angle) * 145,
-        center_y + math.sin(sec_angle) * 145,
-        width=2,
-        fill="red",
-        tags="hands"
-    )
-
-    # Center Dot
-    canvas.create_oval(center_x-6, center_y-6,
-                       center_x+6, center_y+6,
-                       fill="yellow",
-                       outline="yellow",
-                       tags="hands")
-
-    current_time = time.strftime("%I:%M:%S %p")
-    current_date = time.strftime("%A, %d %B %Y")
-
-    digital.config(text=current_time)
-    date_label.config(text=current_date)
-
-    root.after(1000, update_clock)
-
-update_clock()
-root.mainloop()
+Yours Sincerely,
+Name: __________________
+Employee ID: __________________
+Designation: QC/NDT
+Contractor: District Engineering Solution
+Signature: __________________
