@@ -1,1 +1,0 @@
-py -3.13 -c "import pygame; print('Pygame OK', pygame.__version__)"
